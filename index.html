@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dearest's Grievance Haven</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Styling and Background */
+        body {
+            margin: 0;
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #f9f1e7, #f8e3e8);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #472D2D;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container for the main box */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3.5rem;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(186, 126, 126, 0.3),
+                        0 0 0 1px rgba(186, 126, 126, 0.1);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            animation: slideIn 1.5s ease-out;
+            box-sizing: border-box;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><path fill="%23BA7E7E" fill-opacity="0.05" d="M15 5c-1.5 0-3 1-4 2.5C10 6 8.5 5 7 5 4.5 5 2 7.5 2 10c0 5 8 10 13 15 5-5 13-10 13-15 0-2.5-2.5-5-5-5-1.5 0-3 1-4 2.5C18 6 16.5 5 15 5z"/></svg>') repeat;
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        /* Decorative elements */
+        .corner-decor {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            opacity: 0.3;
+        }
+
+        .corner-decor.top-left {
+            top: 0;
+            left: 0;
+            border-top: 2px solid #BA7E7E;
+            border-left: 2px solid #BA7E7E;
+            border-top-left-radius: 20px;
+        }
+
+        .corner-decor.top-right {
+            top: 0;
+            right: 0;
+            border-top: 2px solid #BA7E7E;
+            border-right: 2px solid #BA7E7E;
+            border-top-right-radius: 20px;
+        }
+
+        .corner-decor.bottom-left {
+            bottom: 0;
+            left: 0;
+            border-bottom: 2px solid #BA7E7E;
+            border-left: 2px solid #BA7E7E;
+            border-bottom-left-radius: 20px;
+        }
+
+        .corner-decor.bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom: 2px solid #BA7E7E;
+            border-right: 2px solid #BA7E7E;
+            border-bottom-right-radius: 20px;
+        }
+
+        /* Headings */
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            color: #BA7E7E;
+            margin-bottom: 1.5rem;
+            animation: textPulse 3s infinite ease-in-out;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: normal;
+            margin-bottom: 1.8rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: normal;
+        }
+
+        /* Heart icon styling */
+        .heart {
+            color: #E3A2A2;
+            font-size: 1.5rem;
+            margin: 0 6px;
+            animation: pulse 2s infinite;
+            display: inline-block;
+            position: relative;
+            top: 2px;
+        }
+
+        /* Form Section containers */
+        .login, .complaint-form, .success-message {
+            display: none;
+            animation: fadeSlide 0.8s ease-in;
+            position: relative;
+        }
+
+        /* Active form section */
+        .login.active, .complaint-form.active, .success-message.active {
+            display: block;
+        }
+
+        /* Input and Textarea styling */
+        input, textarea, select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            margin: 0.5rem 0 1.2rem;
+            border: 1px solid #E3A2A2;
+            border-radius: 8px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.8);
+            color: #5D4037;
+            outline: none;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23BA7E7E"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 15px;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+
+        input:hover, textarea:hover, select:hover {
+            border-color: #BA7E7E;
+            box-shadow: 0 0 0 2px rgba(186, 126, 126, 0.1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: #C1A3A3;
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #BA7E7E;
+            box-shadow: 0 0 0 3px rgba(186, 126, 126, 0.2);
+            background: white;
+        }
+
+        /* Button Styling */
+        button {
+            background: #BA7E7E;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1.5rem;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(186, 126, 126, 0.3);
+        }
+
+        button:hover {
+            background: #A46F6F;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(186, 126, 126, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(186, 126, 126, 0.3);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+            z-index: -1;
+        }
+
+        button:hover::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Error Message */
+        .error {
+            color: #de5b5b;
+            background-color: rgba(222, 91, 91, 0.1);
+            border: 1px solid #de5b5b;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-top: 0.8rem;
+            display: none;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Success Message Section */
+        .success-message {
+            position: relative;
+        }
+
+        /* Heart animation on success */
+        .heart-animation {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5rem;
+            color: #E3A2A2;
+            text-shadow: 0 0 15px #E3A2A2, 0 0 30px #E3A2A2;
+            animation: spinGlow 3s ease-in-out;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #E3A2A2;
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-in-out infinite;
+            opacity: 0;
+            box-shadow: 0 0 10px #E3A2A2;
+        }
+
+        /* Paragraph text style */
+        p {
+            color: #5D4037;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin: 1.5rem 0;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Form group for spacing labels and inputs */
+        .form-group {
+            text-align: left;
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #5D4037;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Animated icons for form fields */
+        .input-icon {
+            position: absolute;
+            right: 10px;
+            /* Adjusted vertical position to align better with inputs */
+            top: 50%; 
+            transform: translateY(-50%);
+            color: #C1A3A3;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            pointer-events: none; /* Prevent icon from interfering with clicks */
+        }
+
+        /* Adjust icon position for textareas and selects */
+        .form-group textarea ~ .input-icon {
+             top: 20px; /* Position closer to the top for textarea */
+             transform: translateY(0);
+        }
+
+         .form-group select ~ .input-icon {
+             top: 50%; /* Keep centered for select */
+             transform: translateY(-50%);
+        }
+
+
+        input:focus ~ .input-icon,
+        textarea:focus ~ .input-icon,
+        select:focus ~ .input-icon {
+            color: #BA7E7E;
+        }
+
+        /* Divider styling */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(186, 126, 126, 0.3), transparent);
+            margin: 1.5rem 0;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes textPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+
+        @keyframes spinGlow {
+            0% {
+                transform: translateX(-50%) rotate(0deg) scale(0.8);
+                opacity: 0;
+                text-shadow: 0 0 5px #E3A2A2;
+            }
+            20% {
+                opacity: 1;
+                transform: translateX(-50%) rotate(90deg) scale(1.1);
+                text-shadow: 0 0 15px #E3A2A2, 0 0 30px #E3A2A2;
+            }
+            80% {
+                opacity: 1;
+                transform: translateX(-50%) rotate(270deg) scale(1.1);
+            }
+            100% {
+                transform: translateX(-50%) rotate(360deg) scale(0.8);
+                opacity: 0;
+                text-shadow: none;
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.3rem; }
+            h2 { font-size: 1.8rem; }
+            .container { padding: 2.5rem 2rem; }
+            button { padding: 0.9rem 2rem; font-size: 1.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.9rem; }
+            h2 { font-size: 1.6rem; }
+            .container { padding: 2rem 1.5rem; }
+            button { padding: 0.8rem 1.8rem; font-size: 1.1rem; }
+            input, textarea, select { padding: 0.8rem; }
+             .form-group label { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="corner-decor top-left"></div>
+        <div class="corner-decor top-right"></div>
+        <div class="corner-decor bottom-left"></div>
+        <div class="corner-decor bottom-right"></div>
+
+        <h1 id="main-title">Welcome to Your Personal Complaint Forum <span class="heart">♥</span></h1>
+
+        <div class="login active">
+            <div class="form-group">
+                 <label for="username"></label>
+                <input type="text" id="username" placeholder="...">
+                <span class="input-icon">👤</span>
+            </div>
+            <div class="form-group">
+                <label for="password">Our Secret Code:</label>
+                <input type="password" id="password" placeholder="Shhhh...">
+                 <span class="input-icon">🔒</span>
+            </div>
+            <button onclick="handleLogin()">Enter, My Love</button>
+            <p class="error" id="login-error">Alas, the name or code doesn't match our secret. Please try again.</p>
+        </div>
+
+        <div class="complaint-form">
+            <h2>Share Your Heart <span class="heart">♥</span></h2>
+
+            <div class="form-group">
+                <label for="complaint-title">Title:</label>
+                <input type="text" id="complaint-title" placeholder="A brief summary...">
+                <span class="input-icon">✒️</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="form-group">
+                <label for="complaint-description">What's Bothering You?</label>
+                <textarea id="complaint-description" rows="5" placeholder="Tell me everything, my darling..."></textarea>
+                 <span class="input-icon">💭</span>
+            </div>
+
+            <div class="form-group">
+                <label for="complaint-mood">Your Mood:</label>
+                <select id="complaint-mood">
+                    <option value="sad">Sad 😞</option>
+                    <option value="annoyed">Annoyed 😠</option>
+                    <option value="missing">Missing You 💔</option>
+                    <option value="worried">Worried 😟</option>
+                    <option value="neutral">Okay 🙂</option>
+                    <option value="hopeful">Hopeful 🥰</option>
+                </select>
+                 <span class="input-icon">🌈</span>
+            </div>
+
+            <div class="form-group">
+                <label for="complaint-solution">Suggested Solution (Optional):</label>
+                <textarea id="complaint-solution" rows="3" placeholder="How can I make it better?"></textarea>
+                 <span class="input-icon">✨</span>
+            </div>
+
+            <button onclick="submitComplaint()">Share With Me</button>
+        </div>
+
+        <div class="success-message">
+            <h2>Your Heart Is Heard <span class="heart">♥</span></h2>
+            <p>Your grievance has been sent to Keshav, He will make it alright .</p>
+            <div class="heart-animation">♥
+                <div class="sparkle" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+                <div class="sparkle" style="top: 30%; left: 80%; animation-delay: 0.2s;"></div>
+                <div class="sparkle" style="top: 70%; left: 30%; animation-delay: 0.4s;"></div>
+                <div class="sparkle" style="top: 80%; left: 70%; animation-delay: 0.6s;"></div>
+                <div class="sparkle" style="top: 50%; left: 50%; animation-delay: 0.8s;"></div>
+            </div>
+            <button onclick="goBack()">Share Another Thought</button>
+        </div>
+
+        <form id="basin-form" action="https://usebasin.com/f/a91f295163e5" method="POST">
+            <input type="hidden" name="title" id="basin-title">
+            <input type="hidden" name="whats_bothering" id="basin-whats-bothering">
+            <input type="hidden" name="mood" id="basin-mood">
+            <input type="hidden" name="solution" id="basin-solution">
+            <input type="hidden" name="timestamp" id="basin-timestamp">
+        </form>
+    </div>
+
+    <script>
+        // Get reference to the main title
+        const mainTitle = document.getElementById('main-title');
+
+        // Function to switch between form sections
+        function showSection(sectionClass) {
+            const sections = document.querySelectorAll('.login, .complaint-form, .success-message');
+            sections.forEach(section => section.classList.remove('active'));
+            document.querySelector('.' + sectionClass).classList.add('active');
+
+            // Hide the main title unless we're showing the login section
+            if (sectionClass === 'login') {
+                mainTitle.style.display = 'block';
+            } else {
+                mainTitle.style.display = 'none';
+            }
+        }
+
+        // Handle client-side login check
+        function handleLogin() {
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const error = document.getElementById('login-error');
+
+            const username = usernameInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+
+            // Demo credentials: username = "", password = ""
+            if (username === 'keshavsbby' && password === 'keshavismine') {
+                // Use a slight delay for the form transition animation to look smoother after hiding title
+                 setTimeout(() => {
+                     showSection('complaint-form');
+                 }, 100); // Adjust delay as needed
+                error.style.display = 'none';
+                // Clear login fields after successful login
+                usernameInput.value = '';
+                passwordInput.value = '';
+            } else {
+                error.style.display = 'block';
+                // Add gentle shake animation to the error message
+                error.style.animation = 'none';
+                setTimeout(() => {
+                    error.style.animation = 'shake 0.5s ease';
+                }, 10);
+            }
+        }
+
+        // Handle complaint submission
+        function submitComplaint() {
+            const titleInput = document.getElementById('complaint-title');
+            const descriptionTextarea = document.getElementById('complaint-description');
+            const moodSelect = document.getElementById('complaint-mood');
+            const solutionTextarea = document.getElementById('complaint-solution');
+
+            const title = titleInput.value.trim();
+            const description = descriptionTextarea.value.trim();
+            const mood = moodSelect.value;
+            const solution = solutionTextarea.value.trim();
+
+            if (description !== '') {
+                // Populate hidden Basin form fields
+                const timestamp = new Date().toLocaleString('en-US');
+                document.getElementById('basin-title').value = title || 'No Title Provided';
+                document.getElementById('basin-whats-bothering').value = description;
+                document.getElementById('basin-mood').value = mood;
+                document.getElementById('basin-solution').value = solution || 'No Solution Suggested';
+                document.getElementById('basin-timestamp').value = timestamp;
+
+                // Submit to Basin using the hidden form
+                const form = document.getElementById('basin-form');
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Complaint sent successfully.');
+                        showSection('success-message');
+
+                        // Trigger heart animation
+                        const heart = document.querySelector('.heart-animation');
+                        heart.style.animation = 'none';
+                        void heart.offsetWidth;
+                        heart.style.animation = 'spinGlow 3s ease-in-out';
+
+                        // Clear the complaint fields
+                        titleInput.value = '';
+                        descriptionTextarea.value = '';
+                        moodSelect.value = 'sad';
+                        solutionTextarea.value = '';
+                    } else {
+                        // Show success anyway for smooth UX
+                        console.error('Basin submission failed, but showing success to user.');
+                        showSection('success-message');
+
+                        // Trigger heart animation
+                        const heart = document.querySelector('.heart-animation');
+                        heart.style.animation = 'none';
+                        void heart.offsetWidth;
+                        heart.style.animation = 'spinGlow 3s ease-in-out';
+
+                        // Clear the complaint fields
+                        titleInput.value = '';
+                        descriptionTextarea.value = '';
+                        moodSelect.value = 'sad';
+                        solutionTextarea.value = '';
+                    }
+                })
+                .catch(error => {
+                    // Show success anyway on network error
+                    console.error('Network error:', error);
+                    showSection('success-message');
+
+                    // Trigger heart animation
+                    const heart = document.querySelector('.heart-animation');
+                    heart.style.animation = 'none';
+                    void heart.offsetWidth;
+                    heart.style.animation = 'spinGlow 3s ease-in-out';
+
+                    // Clear the complaint fields
+                    titleInput.value = '';
+                    descriptionTextarea.value = '';
+                    moodSelect.value = 'sad';
+                    solutionTextarea.value = '';
+                });
+            } else {
+                // Show error message for empty description
+                alert("Please share what's on your mind before submitting.");
+            }
+        }
+
+        // Function to go back to the complaint form
+        function goBack() {
+            showSection('complaint-form');
+            // Note: Main title remains hidden when returning to complaint form
+        }
+
+         // Add shake animation for error messages (if not already added)
+        const styleSheet = document.styleSheets[0];
+        let shakeAnimationRule = null;
+
+        // Check if shake animation rule already exists
+        for(let i = 0; i < styleSheet.cssRules.length; i++) {
+            if (styleSheet.cssRules[i].name === 'shake') {
+                shakeAnimationRule = styleSheet.cssRules[i];
+                break;
+            }
+        }
+
+        // Insert shake animation rule if it doesn't exist
+        if (!shakeAnimationRule) {
+             styleSheet.insertRule(`
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                }
+            `, styleSheet.cssRules.length);
+        }
+
+
+    </script>
+</body>
+</html>
